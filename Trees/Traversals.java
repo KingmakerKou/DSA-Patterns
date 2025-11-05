@@ -124,5 +124,83 @@ class Solution {
 //Space Complexity: O(N) where N is the number of nodes in the binary tree. In the worst case, the queue has to hold all the nodes of the last level of the binary tree, 
 //the last level could at most hold N/2 nodes hence the space complexity of the queue is proportional to O(N).
 
+//6.Boundary Traversal
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int data;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int val) { data = val; left = null, right = null }
+ * }
+ **/
+
+class Solution {
+    private boolean isLeaf(TreeNode node){
+        if(node != null && node.left == null && node.right == null){
+            return  true;
+        }
+    return false;
+    }
+    private void addLeftBoundary(TreeNode curr , List<Integer> res){
+        while(curr != null){
+            if(isLeaf(curr) == false){
+                res.add(curr.data);
+            }
+            if(curr.left != null){
+                curr=curr.left;
+            }
+            else{
+                curr=curr.right;
+            }
+        }
+    }
+
+    private void addLeaves(TreeNode node , List<Integer> res){
+            if(node == null) return;
+            if(isLeaf(node)){
+                res.add(node.data);
+                return;
+            }
+            addLeaves(node.left,res);
+            addLeaves(node.right,res);
+    }
+    private void addRightBoundary(TreeNode curr , List<Integer> res){
+        List<Integer> temp = new ArrayList<>();
+        while(curr!=null){
+            if(isLeaf(curr) == false){
+                temp.add(curr.data);
+            }
+            if(curr.right != null){
+                curr=curr.right;
+            }
+            else{
+                curr=curr.left;
+            }
+        }
+        for(int i=temp.size()-1;i>=0;i--){
+            res.add(temp.get(i));
+        }
+    }
+
+
+    public List<Integer> boundary(TreeNode root) {
+        //your code goes here
+        List<Integer> res = new ArrayList<>();
+        if(root == null) return res;
+        if(!isLeaf(root)){
+            res.add(root.data);
+        }
+        addLeftBoundary(root.left , res);
+        addLeaves(root , res);
+        addRightBoundary(root.right , res);
+    return res;
+    }
+}
+//time -> O(n)
+//space -> O(h)
+
+
+
 
 
