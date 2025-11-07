@@ -1,0 +1,17 @@
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        ListNode prev = null;
+        ListNode curr = head;
+        while(curr != null){
+            ListNode front = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = front;
+
+        }
+    return prev;
+    }
+}
+
+//time -> O(n)
+//space -> O(1)
